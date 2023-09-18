@@ -1,5 +1,7 @@
 package au.com.telstra.simcardactivator.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -12,7 +14,9 @@ import au.com.telstra.simcardactivator.service.dto.SimCardActivationResponse;
 
 @Service
 public class ActuatorService {
-    
+
+    private static final Logger log = LoggerFactory.getLogger(ActuatorService.class);
+
     private final RestTemplate client;
 
     private final String ACTUATOR_URI = "http://localhost:8444/actuate";
@@ -29,6 +33,8 @@ public class ActuatorService {
      * @throws {@code 500 (Internal Server Error)} SIM Card activation couldn't be retrieved
      */
     public SimCardActivationResponse activateSimCard(ActuatorRequestPayload payload) { 
+        log.info("Activating SIM CARD");
+
         SimCardActivationResponse response;
 
         try {

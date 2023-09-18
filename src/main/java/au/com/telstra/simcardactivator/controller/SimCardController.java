@@ -1,5 +1,7 @@
 package au.com.telstra.simcardactivator.controller;
 
+import java.net.URISyntaxException;
+
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -37,8 +39,9 @@ public class SimCardController {
      * @throws RunTimeException {@code 500 (Internal Server Error)} if the user can't be activated 
      * 
      */
-    @PostMapping(path = "/activate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody @Valid SimCard simCard) { 
+    @PostMapping(path = "/activate")
+    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody SimCard simCard) throws URISyntaxException { 
+        
         if (simCard.isActivated()) 
             throw new SimCardResourceException("SIM Card for" + simCard.getCustomerEmail() + "is already activated!");
         

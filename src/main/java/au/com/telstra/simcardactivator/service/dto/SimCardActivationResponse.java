@@ -1,6 +1,8 @@
 package au.com.telstra.simcardactivator.service.dto;
 
-public class SimCardActivationResponse {
+import java.io.Serializable;
+
+public class SimCardActivationResponse implements Serializable {
     private Boolean success;
 
     public Boolean getActive() { 
