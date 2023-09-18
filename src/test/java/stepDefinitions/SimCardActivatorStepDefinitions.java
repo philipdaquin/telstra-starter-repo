@@ -8,6 +8,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import io.cucumber.spring.CucumberContextConfiguration;
 
 import static org.junit.Assert.assertFalse;
@@ -22,7 +23,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.client.RestTemplate;
 
-@RunWith(Cucumber.class)
+// @RunWith(Cucumber.class)
+// @CucumberOptions(
+//     features = "src/test/resources/features/sim_card_activator.feature\"",
+//     glue = "stepDefinitions"
+//     )
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = SimCardActivator.class, loader = SpringBootContextLoader.class)
@@ -42,8 +47,6 @@ public class SimCardActivatorStepDefinitions {
     private final String ACTUATOR_URI = "http://localhost:8080/api/v1/activate";
 
     private final String GET_URI = "http://localhost:8080/api/v1/query?simCardId={id}";
-
-
 
     @Given("a new sim card")
     public void workingSimCard() { 

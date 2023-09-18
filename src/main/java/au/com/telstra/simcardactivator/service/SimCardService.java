@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.com.telstra.simcardactivator.domains.SimCard;
+import au.com.telstra.simcardactivator.exception.SimCardResourceException;
 import au.com.telstra.simcardactivator.repository.SimCardRepository;
 import au.com.telstra.simcardactivator.service.dto.ActuatorRequestPayload;
 import au.com.telstra.simcardactivator.service.dto.SimCardActivationResponse;
@@ -33,14 +34,14 @@ public class SimCardService {
      * @param simCard SimCard entity
      * @return SimCardActivationResponse
      */
-    public SimCardActivationResponse callSimCardActuatorService(SimCard simCard) {
-        ActuatorRequestPayload payload = new ActuatorRequestPayload(simCard.getICCD());
+    public SimCardActivationResponse callSimCardActuatorService(ActuatorRequestPayload payload) {
         
         // Send a post request to SimCardActuator
         SimCardActivationResponse actuatorResponse = actuator.activateSimCard(payload);
+        SimCard newSimCard = new SimCard(payload.getIccid(), payload.getCustomerEmail());
 
         // Save to database
-        repository.save(simCard);
+        repository.save(newSimCard);
 
         return actuatorResponse;
     }

@@ -19,6 +19,7 @@ import au.com.telstra.simcardactivator.domains.SimCard;
 import au.com.telstra.simcardactivator.exception.SimCardResourceException;
 import au.com.telstra.simcardactivator.repository.SimCardRepository;
 import au.com.telstra.simcardactivator.service.SimCardService;
+import au.com.telstra.simcardactivator.service.dto.ActuatorRequestPayload;
 import au.com.telstra.simcardactivator.service.dto.SimCardActivationResponse;
 
 @RestController
@@ -42,12 +43,14 @@ public class SimCardController {
      * 
      */
     @PostMapping(path = "/activate")
-    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody SimCard simCard) throws URISyntaxException { 
-        
-        if (simCard.isActive()) 
-            throw new SimCardResourceException("SIM Card for" + simCard.getCustomerEmail() + "is already activated!");
-        
-        return ResponseEntity.ok(service.callSimCardActuatorService(simCard));
+    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody ActuatorRequestPayload payload) throws URISyntaxException { 
+
+        // Check if the ICCD is already registered
+        Optional<SimCard> simCard = repository.findByICCD(payload.getIccid());
+        if (simCard.isPresent() && simCard.get().isActive()) 
+            throw new SimCardResourceException("SIM Card for" + payload.getCustomerEmail() + "is already activated!");
+
+        return ResponseEntity.ok(service.callSimCardActuatorService(payload));
     }
 
     /**
