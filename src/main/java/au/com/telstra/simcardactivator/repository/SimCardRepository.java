@@ -8,6 +8,6 @@ import au.com.telstra.simcardactivator.domains.SimCard;
 
 @SuppressWarnings("unused")
 @Repository
-public interface SimCardRepository extends JpaRepository<SimCard, String> {
+public interface SimCardRepository extends JpaRepository<SimCard, Long> {
     
 }

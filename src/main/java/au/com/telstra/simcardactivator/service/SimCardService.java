@@ -1,10 +1,12 @@
 package au.com.telstra.simcardactivator.service;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import au.com.telstra.simcardactivator.domains.SimCard;
 import au.com.telstra.simcardactivator.repository.SimCardRepository;
@@ -33,9 +35,26 @@ public class SimCardService {
      */
     public SimCardActivationResponse callSimCardActuatorService(SimCard simCard) {
         ActuatorRequestPayload payload = new ActuatorRequestPayload(simCard.getICCD());
+        
+        // Send a post request to SimCardActuator
         SimCardActivationResponse actuatorResponse = actuator.activateSimCard(payload);
+
+        // Save to database
+        repository.save(simCard);
 
         return actuatorResponse;
     }
+
+    /**
+     * Get one SimCard by Id
+     * 
+     * @param id of SimCard transaction
+     * @return the entity 
+     */
+    @Transactional(readOnly = true)
+    public Optional<SimCard> getOne(final Long id) { 
+        return repository.findById(id);
+    }
+
 
 }

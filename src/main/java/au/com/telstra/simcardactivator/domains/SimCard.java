@@ -2,19 +2,41 @@ package au.com.telstra.simcardactivator.domains;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
 @Table(name = "simcard")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class SimCard implements Serializable {
 
+    private static final long serialVersionUID = 1L; 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "iccid")
     private String iccid;
+    
+    @NotNull
+    @Email
+    @Column(name = "customer_email", nullable = false)
     private String customerEmail;
-    private Boolean activated;
+    
+    @Column(name = "activated")
+    private Boolean active;
+
 
     public SimCard() {}
     public SimCard(String iccid, String customerEmail) { 
@@ -35,11 +57,11 @@ public class SimCard implements Serializable {
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
-    public Boolean isActivated() {
-        return activated;
+    public Boolean isActive() {
+        return active;
     }
-    public void setActivated(Boolean activated) {
-        this.activated = activated;
+    public void setActive(Boolean activated) {
+        this.active = activated;
     } 
 
 }
