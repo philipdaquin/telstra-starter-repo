@@ -1,5 +1,7 @@
 package au.com.telstra.simcardactivator.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,7 +38,7 @@ public class SimCardController {
      * 
      */
     @PostMapping(path = "/activate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody SimCard simCard) { 
+    public ResponseEntity<SimCardActivationResponse> activateSimCard(@RequestBody @Valid SimCard simCard) { 
         if (simCard.isActivated()) 
             throw new SimCardResourceException("SIM Card for" + simCard.getCustomerEmail() + "is already activated!");
         

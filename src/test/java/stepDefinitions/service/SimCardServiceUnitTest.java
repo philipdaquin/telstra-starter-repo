@@ -16,7 +16,6 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
 import au.com.telstra.simcardactivator.domains.SimCard;
 import au.com.telstra.simcardactivator.repository.SimCardRepository;
