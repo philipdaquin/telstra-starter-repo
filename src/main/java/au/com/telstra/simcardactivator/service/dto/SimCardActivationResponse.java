@@ -8,7 +8,7 @@ public class SimCardActivationResponse implements Serializable {
     public Boolean getActive() { 
         return success;
     }
-    public SimCardActivationResponse(String string) { 
-        this.success = string;
+    public SimCardActivationResponse(Boolean activate) { 
+        this.success = activate;
     }
 }
