@@ -22,7 +22,7 @@ import au.com.telstra.simcardactivator.service.SimCardService;
 import au.com.telstra.simcardactivator.service.dto.SimCardActivationResponse;
 
 @RestController
-@RequestMapping(path = "/api/v1/simcard")
+@RequestMapping(path = "/api/v1")
 public class SimCardController {
     
     private final SimCardService service;
@@ -56,7 +56,7 @@ public class SimCardController {
      * @param simCardId
      * @return the {@link ResponseEntity} with status {@code 200} with the body simcard transaction
      */
-    @GetMapping(path = "/{simCardId}")
+    @GetMapping(path = "/query?simCardId={simCardId}")
     public ResponseEntity<SimCard> getSimCard(@PathVariable final Long simCardId) { 
         SimCard simcard = service.getOne(simCardId).orElseThrow(() -> new SimCardResourceException("Unable to find SimCard entity!"));
 
